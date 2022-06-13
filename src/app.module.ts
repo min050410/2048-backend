@@ -4,6 +4,9 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TodoModule } from './todo/todo.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { WeightController } from './weight/weight.controller';
+import { WeightService } from './weight/weight.service';
+import { WeightModule } from './weight/weight.module';
 
 @Module({
   imports: [
@@ -21,7 +24,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       logging: true,
       entities: [__dirname + '/**/entities/*.entity.{js,ts}']
   }),
-    TodoModule
+    TodoModule,
+    WeightModule
   ],
   controllers: [AppController],
   providers: [AppService],
