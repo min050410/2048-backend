@@ -2,11 +2,9 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import { TodoModule } from './todo/todo.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { WeightController } from './weight/weight.controller';
-import { WeightService } from './weight/weight.service';
-import { WeightModule } from './weight/weight.module';
+import { UserController } from './user/user.controller';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -24,8 +22,7 @@ import { WeightModule } from './weight/weight.module';
       logging: true,
       entities: [__dirname + '/**/entities/*.entity.{js,ts}']
   }),
-    TodoModule,
-    WeightModule
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
