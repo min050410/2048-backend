@@ -1,1 +1,1 @@
-<a href="https://pond-cheshire-bae.notion.site/9e52c7e706af44edbfd54d7dd3a8e221?v=5701a0f6db61442f9433857d3f4c494a">링크</a>
+<a href="https://documenter.getpostman.com/view/18551209/UzBsGikz">2048 BackEnd Api Docs</a>
