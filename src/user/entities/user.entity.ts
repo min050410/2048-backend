@@ -5,10 +5,7 @@ export class UserEntity {
     @PrimaryGeneratedColumn()
     usercode: number;
 
-    @Column({
-        nullable: false,
-        length: 20
-    })
+    @Column()
     nickname: string;
 
     @Column({

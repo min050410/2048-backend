@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { changeNickNameDTO } from './dto/change-nickname-dto';
 import { updateScoreDTO } from './dto/update-score-dto';
 import { UserEntity } from './entities/user.entity';
@@ -19,9 +19,10 @@ export class UserController {
         return await this.userService.getGuestId();
     }
 
-    @Get('getUser')
-    async getUser(): Promise<UserEntity[]> {
-        return this.userService.getUser();
+    @Get('/getUser/:guestId')
+    async getUser(@Param('guestId') guestId: number): Promise<UserEntity> {
+        
+        return this.userService.getUser(guestId);
     }
 
     @Post('change')
