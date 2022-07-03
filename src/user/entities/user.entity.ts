@@ -6,6 +6,9 @@ export class UserEntity {
     usercode: number;
 
     @Column()
+    id: string;
+
+    @Column()
     nickname: string;
 
     @Column({

@@ -19,6 +19,11 @@ export class UserController {
         return await this.userService.getGuestId();
     }
 
+    @Get('getUUID')
+    async getUUID(): Promise<string> {
+        return await this.userService.getUUID();
+    }
+
     @Get('/getUser/:guestId')
     async getUser(@Param('guestId') guestId: number): Promise<UserEntity> {
         

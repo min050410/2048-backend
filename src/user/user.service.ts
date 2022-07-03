@@ -5,6 +5,7 @@ import { UserEntity } from './entities/user.entity';
 import { Not } from 'typeorm';
 import { changeNickNameDTO } from './dto/change-nickname-dto';
 import { updateScoreDTO } from './dto/update-score-dto';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class UserService {
@@ -21,6 +22,7 @@ export class UserService {
         }))?.usercode?? 0;
         const newUser = this.userRepository.create();
         console.log(lastGuestId+1);
+        newUser.id = uuidv4();
         newUser.usercode = lastGuestId+1;
         newUser.nickname = 'Guest'+((lastGuestId+1).toString());
         newUser.scoreMaxNumber = 0;
@@ -48,18 +50,30 @@ export class UserService {
         return lastGuestId;
     }
 
+    async getUUID(): Promise<string> {
+        const getID = (await this.userRepository.findOne({
+            where: {
+                usercode: Not(0)
+            },
+            order: {
+                usercode: 'DESC'
+            }
+        }))?.id?? null;
+        return getID;
+    }
+
     async changeNickName(dto: changeNickNameDTO) {
         console.log(dto.nickname);
+        console.log(dto.id);
         this.userRepository.createQueryBuilder()
             .update()
             .set({ nickname : dto.nickname })
-            .where("usercode = :usercode", { usercode: dto.usercode })
+            .where("id = :id", { id: dto.id })
             .execute();
         return dto.nickname
     }
 
     async updateScore(dto: updateScoreDTO) {
-
         // 최댓값 반영
         const nowscore = (await this.userRepository.findOne({
             where: {
