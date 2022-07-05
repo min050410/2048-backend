@@ -2,12 +2,13 @@ import { IsNumber, IsString } from "class-validator";
 
 export class updateScoreDTO {
     
-    @IsNumber()
-    usercode: number;
+    @IsString()
+    id: string;
     
-    @IsNumber()
-    score: number;
+    // 암호화
+    @IsString()
+    score: string;
 
-    @IsNumber()
-    scoreMaxNumber: number;
+    @IsString()
+    scoreMaxNumber: string;
 }

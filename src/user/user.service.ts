@@ -73,28 +73,40 @@ export class UserService {
         return dto.nickname
     }
 
+    async decipher(score: string, key: string) {
+        const CryptoJS = require("crypto-js");
+        const bytes = CryptoJS.DES.decrypt(score, key);
+        const decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+        return decryptedData;
+    }
+
     async updateScore(dto: updateScoreDTO) {
+
         // 최댓값 반영
         const nowscore = (await this.userRepository.findOne({
             where: {
-                usercode: dto.usercode,
+                id: dto.id,
             },
         }))?.score?? 0;
 
         const nowscoreMaxNumber = (await this.userRepository.findOne({
             where: {
-                usercode: dto.usercode,
+                id: dto.id,
             },
         }))?.scoreMaxNumber?? 0;
 
-        const updateScore = Math.max(dto.score, nowscore);
-        const updatescoreMaxNumber = Math.max(dto.scoreMaxNumber, nowscoreMaxNumber);
+        const decryptedScore = await this.decipher(dto.score, process.env.CRYPTO_KEY);
+        const decryptedScoreMaxNumber = await this.decipher(dto.scoreMaxNumber, process.env.CRYPTO_KEY);
+        
+        const updateScore = Math.max(decryptedScore, nowscore);
+        const updatescoreMaxNumber = Math.max(decryptedScoreMaxNumber, nowscoreMaxNumber);
 
         this.userRepository.createQueryBuilder()
             .update()
             .set({ score : updateScore, scoreMaxNumber : updatescoreMaxNumber })
-            .where("usercode = :usercode", { usercode: dto.usercode })
+            .where("id = :id", { id: dto.id })
             .execute();
+
         return dto;
     }
 
@@ -111,4 +123,6 @@ export class UserService {
         .addOrderBy('scoreMaxNumber', 'DESC')
         .getRawMany()
     }
+
+
 }
